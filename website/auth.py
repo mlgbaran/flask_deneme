@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 
-
+import mysql.connector
 
 auth = Blueprint('auth', __name__)
 
@@ -56,3 +56,15 @@ def sign_up():
             flash('Account Created!', category='success')
             return redirect(url_for('views.home'))
     return render_template("sign_up.html")
+
+@auth.route('/check-connection', methods=['GET'])
+def checkConnection():
+
+    connection = mysql.connector.connect(host="localhost",
+    database="httpdhbu123_narteklif_db",
+    user="httpdhbu123_barancicek",
+    password="u2CnQh_7A$s8")
+
+    if connection.is_connected():
+        db_Info = connection.get_server_info()
+    return render_template("check_connection.html",bilgi=db_Info)
