@@ -1,11 +1,13 @@
 
 from flask import Blueprint, render_template, request, flash, redirect, url_for
+from sqlalchemy import create_engine
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 
-import mysql.connector
+from flask_sqlalchemy import SQLAlchemy
+
 
 auth = Blueprint('auth', __name__)
 
@@ -60,11 +62,8 @@ def sign_up():
 @auth.route('/check-connection', methods=['GET'])
 def checkConnection():
 
-    connection = mysql.connector.connect(host="localhost",
-    database="httpdhbu123_narteklif_db",
-    user="httpdhbu123_barancicek",
-    password="u2CnQh_7A$s8")
+    engine = create_engine('mysql://httpdhbu123_barancicek:u2CnQh_7A$s8@localhost/httpdhbu123_narteklif_db',echo=True)
+    q = engine.execute('SHOW TABLES')
+    bilgi = q.fetchall()
 
-    if connection.is_connected():
-        db_Info = connection.get_server_info()
-    return render_template("check_connection.html",bilgi=db_Info)
+    return render_template("check_connection.html", bilgi=bilgi)
