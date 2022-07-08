@@ -5,7 +5,9 @@ from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
-import MySQLdb
+import pymysql
+
+pymysql.install_as_MySQLdb()
 
 from flask_sqlalchemy import SQLAlchemy
 
