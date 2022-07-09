@@ -2,7 +2,27 @@
 {% block title%}check connection{% endblock %}
 
 {% block content %}
+
+
+<p>{{table}}</p>
 {% for user in users %}
-<p>{{user[0]}}</p>
+<table>
+    <thead>
+      <tr>
+          <th>vehicle ID</th>
+          <th>current timestamp</th>
+          <th>expiry timestamp</th>
+      </tr>
+      </thead>    
+      <tbody>
+       {% for row in data %}    
+              <tr>
+                  <td>{{row[0]}}</td>
+                  <td>{{row[1]}}</td>
+                  <td>{{row[2]}}</td>
+              </tr>
+          {% endfor %}
+      </tbody>
+  </table>
 {% endfor%}
 {% endblock %}

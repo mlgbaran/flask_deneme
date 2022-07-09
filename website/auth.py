@@ -1,6 +1,6 @@
 
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, table
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
@@ -88,6 +88,8 @@ def checkConnection():
     q = engine.execute('SELECT * FROM TABLE2')
     bilgi = q.fetchall()
 
+    
+
     """form = UploadFileForm()
 
     if form.validate_on_submit():
@@ -95,4 +97,17 @@ def checkConnection():
         file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),"website/static/csv_files",secure_filename(file,filename)))
         return "file has been uploaded" """
     #return render_template("check_connection.html", bilgi=bilgi)
-    return render_template("check_connection.html", users=bilgi)
+    return render_template("check_connection.html", users=bilgi, table=checkTableExists(engine,"TABLE2"))
+
+def checkTableExists(engine, tablename):
+    engine.execute("""
+        SELECT COUNT(*)
+        FROM information_schema.tables
+        WHERE table_name = '{0}'
+        """.format(tablename.replace('\'', '\'\'')))
+    if engine.fetchone()[0] == 1:
+        engine.close()
+        return True
+
+    engine.close()
+    return False
