@@ -97,17 +97,5 @@ def checkConnection():
         file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),"website/static/csv_files",secure_filename(file,filename)))
         return "file has been uploaded" """
     #return render_template("check_connection.html", bilgi=bilgi)
-    return render_template("check_connection.html", users=bilgi, table=checkTableExists(engine,"TABLE2"))
+    return render_template("check_connection.html", users=bilgi, table=engine.dialect.has_table('TABLE2'))
 
-def checkTableExists(engine, tablename):
-    engine.execute("""
-        SELECT COUNT(*)
-        FROM information_schema.tables
-        WHERE table_name = '{0}'
-        """.format(tablename.replace('\'', '\'\'')))
-    if engine.fetchone()[0] == 1:
-        engine.close()
-        return True
-
-    engine.close()
-    return False
