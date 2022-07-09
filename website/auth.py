@@ -7,11 +7,21 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 import pymysql
 import mysql.connector
+from flask_wtf import FlaskForm
+from wtforms import FileField, SubmitField
+from werkzeug.utils import secure_filename
+import os
+
 
 pymysql.install_as_MySQLdb()
 
 from flask_sqlalchemy import SQLAlchemy
 
+
+
+"""class UploadFileForm(FlaskForm):
+    file = FileField("File")
+    submit = SubmitField("Upload File")"""
 
 auth = Blueprint('auth', __name__)
 
@@ -63,7 +73,7 @@ def sign_up():
             return redirect(url_for('views.home'))
     return render_template("sign_up.html")
 
-@auth.route('/check-connection', methods=['GET'])
+@auth.route('/check-connection', methods=['GET','POST'])
 def checkConnection():
 
 
@@ -73,7 +83,14 @@ def checkConnection():
     #q = my_cursor.execute('SHOW DATABASES')
     #bilgi = q.fetchall()
     engine = create_engine('mysql://httpdhbu123_atlmue1qu:barancicek07@localhost/httpdhbu123_atlmue1q',echo=True)
-    q = engine.execute('SHOW TABLES')
+    q = engine.execute('SELECT * FROM TABLE 2')
     bilgi = q.fetchall()
 
-    return render_template("check_connection.html", bilgi=bilgi)
+    """form = UploadFileForm()
+
+    if form.validate_on_submit():
+        file = form.file.data
+        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),"website/static/csv_files",secure_filename(file,filename)))
+        return "file has been uploaded""""
+    #return render_template("check_connection.html", bilgi=bilgi)
+    return render_template("check_connection.html", users=bilgi)

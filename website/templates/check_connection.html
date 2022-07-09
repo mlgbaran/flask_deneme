@@ -2,8 +2,7 @@
 {% block title%}check connection{% endblock %}
 
 {% block content %}
-{% for table in tables %}
-                    <h2>{{titles[loop.index]}}</h2>                            
-                    {{ table|safe }}
-{% endfor %}
+{% for user in users %}
+<span>{{item}}</span>
+{% endfor%}
 {% endblock %}

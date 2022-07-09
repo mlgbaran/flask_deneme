@@ -13,7 +13,7 @@ def create_app():
     app.config['SECRET_KEY'] = 'denemesecretkey'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://httpdhbu123_atlmue1qu:barancicek07@localhost/httpdhbu123_atlmue1q'
     #db.init_app(app)
-
+    app.config['UPLOAD_FOLDER'] = 'static/csv_files'
     from .views import views
     from .auth import auth
 
