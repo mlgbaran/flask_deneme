@@ -26,6 +26,17 @@ from flask_sqlalchemy import SQLAlchemy
 
 auth = Blueprint('auth', __name__)
 
+engine = create_engine('mysql://httpdhbu123_atlmue1qu:barancicek07@localhost/httpdhbu123_atlmue1q',echo=True)
+q = engine.execute('SELECT * FROM TABLE2')
+bilgi = q.fetchall()
+
+Session=sessionmaker(bind=engine)
+ss = Session()
+
+Base = declarative_base()
+
+
+
 @auth.route('/login', methods=['GET','POST'])
 def login():
     if request.method == 'POST':
@@ -67,8 +78,12 @@ def sign_up():
             flash('Password must be at least 7 characters.', category='error')
         else:
             new_user = User(email=email, first_name=first_name, password=generate_password_hash(password1,method="sha256"))
-            db.session.add(new_user)
-            db.session.commit()
+
+            if not engine.dialect.has_table(engine.connect(),'Users'):
+                Base.metadata.create_all(engine)
+
+            ss.add(new_user)
+            ss.commit()
 
 
             flash('Account Created!', category='success')
@@ -84,25 +99,12 @@ def checkConnection():
     #my_cursor = mydb.cursor()
     #q = my_cursor.execute('SHOW DATABASES')
     #bilgi = q.fetchall()
-    engine = create_engine('mysql://httpdhbu123_atlmue1qu:barancicek07@localhost/httpdhbu123_atlmue1q',echo=True)
-    q = engine.execute('SELECT * FROM TABLE2')
-    bilgi = q.fetchall()
 
-    Session=sessionmaker(bind=engine)
-    ss = Session()
 
-    Base = declarative_base()
 
-    class urun(Base):
-        __tablename__ = 'Users'
 
-        id = db.Column(db.Integer, primary_key=True)
-        email = db.Column(db.String(150),unique=True)
-        password = db.Column(db.String(150))
-        first_name = db.column(db.String(150))
-
-    if not engine.dialect.has_table(engine.connect(),'Users'):
-        Base.metadata.create_all(engine)
+    """if not engine.dialect.has_table(engine.connect(),'Users'):
+        Base.metadata.create_all(engine)"""
     
     """form = UploadFileForm()
 
