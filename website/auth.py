@@ -1,9 +1,9 @@
 
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from sqlalchemy import create_engine
-#from .models import User
+from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
-#from . import db
+from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 import pymysql
 import mysql.connector
@@ -11,7 +11,8 @@ from flask_wtf import FlaskForm
 from wtforms import FileField, SubmitField
 from werkzeug.utils import secure_filename
 import os
-
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
 pymysql.install_as_MySQLdb()
 
@@ -31,17 +32,17 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        #user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(email=email).first()
 
-        #if user:
-            #if check_password_hash(user.password,password):
-                #flash('Logged in successfully!', category='success')
-                #login_user(user, remember=True)
-                #return redirect(url_for('views.home'))
-            #else:
-                #flash('Incorrect password, try again.', category='error')
-         #else:
-            #flash('Email does not exist.', category='error')
+        if user:
+            if check_password_hash(user.password,password):
+                flash('Logged in successfully!', category='success')
+                login_user(user, remember=True)
+                return redirect(url_for('views.home'))
+            else:
+                flash('Incorrect password, try again.', category='error')
+        else:
+            flash('Email does not exist.', category='error')
 
     return render_template("login.html", boolean=True)
 
@@ -65,9 +66,10 @@ def sign_up():
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
         else:
-            #new_user = User(email=email, first_name=first_name, password=generate_password_hash(password1,method="sha256"))
-            #db.session.add(new_user)
-            #db.session.commit()
+            new_user = User(email=email, first_name=first_name, password=generate_password_hash(password1,method="sha256"))
+            db.session.add(new_user)
+            db.session.commit()
+
 
             flash('Account Created!', category='success')
             return redirect(url_for('views.home'))
@@ -83,7 +85,7 @@ def checkConnection():
     #q = my_cursor.execute('SHOW DATABASES')
     #bilgi = q.fetchall()
     engine = create_engine('mysql://httpdhbu123_atlmue1qu:barancicek07@localhost/httpdhbu123_atlmue1q',echo=True)
-    q = engine.execute('SELECT * FROM TABLE 2')
+    q = engine.execute('SELECT * FROM TABLE2')
     bilgi = q.fetchall()
 
     """form = UploadFileForm()
@@ -91,6 +93,6 @@ def checkConnection():
     if form.validate_on_submit():
         file = form.file.data
         file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),"website/static/csv_files",secure_filename(file,filename)))
-        return "file has been uploaded""""
+        return "file has been uploaded" """
     #return render_template("check_connection.html", bilgi=bilgi)
     return render_template("check_connection.html", users=bilgi)
