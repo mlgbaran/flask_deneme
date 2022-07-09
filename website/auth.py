@@ -1,6 +1,6 @@
 
-from flask import Blueprint, render_template, request, flash, redirect, url_for
-from sqlalchemy import create_engine, table
+from flask import Blueprint, render_template, request, flash, redirect, session, url_for
+from sqlalchemy import create_engine, inspect, table
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
@@ -88,8 +88,22 @@ def checkConnection():
     q = engine.execute('SELECT * FROM TABLE2')
     bilgi = q.fetchall()
 
-    
+    Session=sessionmaker(bind=engine)
+    ss = Session()
 
+    Base = declarative_base()
+
+    class urun(Base):
+        __tablename__ = 'Users'
+
+        id = db.Column(db.Integer, primary_key=True)
+        email = db.Column(db.String(150),unique=True)
+        password = db.Column(db.String(150))
+        first_name = db.column(db.String(150))
+
+    if not engine.dialect.has_table(engine.connect(),'Users'):
+        Base.metadata.create_all(engine)
+    
     """form = UploadFileForm()
 
     if form.validate_on_submit():
@@ -97,5 +111,5 @@ def checkConnection():
         file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),"website/static/csv_files",secure_filename(file,filename)))
         return "file has been uploaded" """
     #return render_template("check_connection.html", bilgi=bilgi)
-    return render_template("check_connection.html", users=bilgi, table=engine.dialect.has_table('TABLE2'))
+    return render_template("check_connection.html", users=bilgi, table=engine.dialect.has_table(engine.connect(),'TABLE2'))
 
