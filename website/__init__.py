@@ -47,7 +47,7 @@ def create_app():
 
     return app
 
- def create_database(app):
+def create_database(app):
     if not engine.dialect.has_table(engine.connect(),'Users'):
         Base.metadata.create_all(engine)
         print('Created database!')
