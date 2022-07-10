@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, flash, redirect, session,
 from sqlalchemy import create_engine, inspect, table
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db
+from . import db, engine, Session
 from flask_login import login_user, login_required, logout_user, current_user
 import pymysql
 import mysql.connector
@@ -26,14 +26,16 @@ from flask_sqlalchemy import SQLAlchemy
 
 auth = Blueprint('auth', __name__)
 
-engine = create_engine('mysql://httpdhbu123_atlmue1qu:barancicek07@localhost/httpdhbu123_atlmue1q',echo=True)
+"""engine = create_engine('mysql://httpdhbu123_atlmue1qu:barancicek07@localhost/httpdhbu123_atlmue1q',echo=True)
 q = engine.execute('SELECT * FROM TABLE2')
 bilgi = q.fetchall()
+
+print(bilgi)
 
 Session=sessionmaker(bind=engine)
 ss = Session()
 
-Base = declarative_base()
+Base = declarative_base()"""
 
 
 
@@ -79,11 +81,11 @@ def sign_up():
         else:
             new_user = User(email=email, first_name=first_name, password=generate_password_hash(password1,method="sha256"))
 
-            if not engine.dialect.has_table(engine.connect(),'Users'):
-                Base.metadata.create_all(engine)
+            """if not engine.dialect.has_table(engine.connect(),'Users'):
+                db.create_all(engine)"""
 
-            ss.add(new_user)
-            ss.commit()
+            db.session.add(new_user)
+            db.session.commit()
 
 
             flash('Account Created!', category='success')
@@ -113,5 +115,5 @@ def checkConnection():
         file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),"website/static/csv_files",secure_filename(file,filename)))
         return "file has been uploaded" """
     #return render_template("check_connection.html", bilgi=bilgi)
-    return render_template("check_connection.html", users=bilgi, table=engine.dialect.has_table(engine.connect(),'TABLE2'))
+    return render_template("check_connection.html", users=bilgi, table=db.Model)
 

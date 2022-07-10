@@ -2,10 +2,26 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import pymysql
 from os import path
+import os
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from flask import Blueprint, render_template, request, flash, redirect, session, url_for
+from sqlalchemy import create_engine, inspect, table
 
 
 
 db = SQLAlchemy()
+
+engine = create_engine('mysql://httpdhbu123_atlmue1qu:barancicek07@localhost/httpdhbu123_atlmue1q',echo=True)
+q = engine.execute('SELECT * FROM TABLE2')
+bilgi = q.fetchall()
+
+print(bilgi)
+
+Session=sessionmaker(bind=engine)
+ss = Session()
+
+Base = declarative_base()
 
 #DB_NAME = "database.db"
 
@@ -13,7 +29,7 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'denemesecretkey'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://httpdhbu123_atlmue1qu:barancicek07@localhost/httpdhbu123_atlmue1q'
-    #db.init_app(app)
+    db.init_app(app)
     app.config['UPLOAD_FOLDER'] = 'static/csv_files'
     from .views import views
     from .auth import auth
@@ -31,7 +47,7 @@ def create_app():
 
     return app
 
- #def create_database(app):
-    #if not path.exists('website/' + DB_NAME):
-        #db.create_all(app=app)
-        #print('Created database!')
+ def create_database(app):
+    if not engine.dialect.has_table(engine.connect(),'Users'):
+        Base.metadata.create_all(engine)
+        print('Created database!')
