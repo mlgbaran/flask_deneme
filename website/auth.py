@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, flash, redirect, session,
 from sqlalchemy import create_engine, inspect, table
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db, engine, Session
+from . import db, engine, session
 from flask_login import login_user, login_required, logout_user, current_user
 import pymysql
 import mysql.connector
@@ -84,8 +84,8 @@ def sign_up():
             """if not engine.dialect.has_table(engine.connect(),'Users'):
                 db.create_all(engine)"""
 
-            db.session.add(new_user)
-            db.session.commit()
+            session.add(new_user)
+            session.commit()
 
 
             flash('Account Created!', category='success')
