@@ -1,6 +1,7 @@
 
-from . import db
+from . import Base
 from flask_login import UserMixin
+from sqlalchemy import Column, Integer, String
 
 """class Urun(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -11,13 +12,13 @@ from flask_login import UserMixin
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))"""
 
 
-class User(db.Model, UserMixin):
+class User(Base, UserMixin):
     __tablename__ = 'Users'
 
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(150),unique=True)
-    password = db.Column(db.String(150))
-    first_name = db.column(db.String(150))
+    id = Column(Integer, primary_key=True)
+    email = Column(String(150),unique=True)
+    password = Column(String(150))
+    first_name = Column(String(150))
 
 
 
