@@ -1,7 +1,8 @@
 
-from . import Base
+from .__init__ import Base
 from flask_login import UserMixin
 from sqlalchemy import Column, Integer, String
+
 
 """class Urun(db.Model):
     id = db.Column(db.Integer, primary_key = True)
