@@ -1,6 +1,7 @@
 from flask import Flask
 from sqlalchemy import Column, Integer, String
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 import pymysql
 from os import path
 import os
@@ -11,7 +12,7 @@ from sqlalchemy import create_engine, inspect, table
 
 #from website.models import User
 
-from .models import User
+
 
 pymysql.install_as_MySQLdb()
 
@@ -20,6 +21,7 @@ db = SQLAlchemy()
 engine = create_engine('mysql://httpdhbu123_atlmue1qu:barancicek07@localhost/httpdhbu123_atlmue1q',echo=True)
 
 Base = declarative_base()
+
 
 #DB_NAME = "database.db"
 
@@ -46,13 +48,7 @@ def create_app():
     return app
 
 def create_database(app):
-    class User(Base, UserMixin):
-        __tablename__ = 'Users'
 
-        id = Column(Integer, primary_key=True)
-        email = Column(String(150),unique=True)
-        password = Column(String(150))
-        first_name = Column(String(150))
 
     Base.metadata.create_all(engine, checkfirst=True)
     Session=sessionmaker(bind=engine)
