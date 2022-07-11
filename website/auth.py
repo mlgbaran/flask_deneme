@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, flash, redirect, session,
 from sqlalchemy import create_engine, inspect, table
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db, engine, session
+from . import db, engine, session, LoginManager
 from flask_login import login_user, login_required, logout_user, current_user
 import pymysql
 import mysql.connector
@@ -67,7 +67,7 @@ def sign_up():
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
-        user = User.query.filter_by(email=email).first()
+        user = session.query(User).filter_by(email=email).first()
         if user:
             flash('Email already exists.', category='error')
         elif len(email) < 4:

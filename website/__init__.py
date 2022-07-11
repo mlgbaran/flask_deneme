@@ -1,7 +1,7 @@
 from flask import Flask
 from sqlalchemy import Column, Integer, String
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
+from flask_login import LoginManager, UserMixin
 import pymysql
 from os import path
 import os
@@ -22,15 +22,21 @@ engine = create_engine('mysql://httpdhbu123_atlmue1qu:barancicek07@localhost/htt
 
 Base = declarative_base()
 
+Session=sessionmaker(bind=engine)
+session = Session()
 
 #DB_NAME = "database.db"
 
 def create_app():
+
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'denemesecretkey'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://httpdhbu123_atlmue1qu:barancicek07@localhost/httpdhbu123_atlmue1q'
     db.init_app(app)
     app.config['UPLOAD_FOLDER'] = 'static/csv_files'
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+    login_manager.login_view = 'login'
     from .views import views
     from .auth import auth
 
@@ -51,8 +57,6 @@ def create_database(app):
 
 
     Base.metadata.create_all(engine, checkfirst=True)
-    Session=sessionmaker(bind=engine)
-    session = Session()
 
     
     print('Created database!')
