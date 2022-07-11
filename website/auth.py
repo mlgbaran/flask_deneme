@@ -94,33 +94,15 @@ def sign_up():
 
 @auth.route('/check-connection', methods=['GET','POST'])
 def checkConnection():
-
-
-    #mydb = mysql.connector.connect(host="localhost",user="httpdhbu123_atlmue1qu",passwd=")w*{M{;02ovh")
-    
-    #my_cursor = mydb.cursor()
-    #q = my_cursor.execute('SHOW DATABASES')
-    #bilgi = q.fetchall()
-
-
-
-
-    """if not engine.dialect.has_table(engine.connect(),'Users'):
-        Base.metadata.create_all(engine)"""
-    
-    """form = UploadFileForm()
-
-    if form.validate_on_submit():
-        file = form.file.data
-        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),"website/static/csv_files",secure_filename(file,filename)))
-        return "file has been uploaded" """
-    #return render_template("check_connection.html", bilgi=bilgi)
-
-    q = engine.execute('SELECT * FROM information_schema.tables;')
+    q = engine.execute('SHOW TABLES;')
     tablelist = q.fetchall()
 
+    if request.method == 'POST':
+        print(request.form.get('table'))
+    
 
-    return render_template("check_connection.html",user=current_user,tablelist=tablelist)
+
+    return render_template("check_connection.html",user=current_user,tablelist=tablelist,headers=headers)
 
 @auth.route('/logout')
 @login_required

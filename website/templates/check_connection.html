@@ -4,9 +4,22 @@
 {% block content %}
 
 
-<select class="form-select" aria-label="Default select example">
-{% for table in tableslist %}
-<option value="">table</option>
+<form  method="POST">
+<H2>Görmek istediğiniz tabloyu seçiniz</H2>
+
+<select name="table" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+{% for table in tablelist %}
+<option value=""> {{table}}</option>
 {% endfor %}
 </select>
+
+
+<input type="submit" name="goster" value="Tabloyu Göster">
+
+</form>
+
+
+
+
+
 {% endblock %}
