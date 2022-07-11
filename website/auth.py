@@ -115,7 +115,12 @@ def checkConnection():
         file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),"website/static/csv_files",secure_filename(file,filename)))
         return "file has been uploaded" """
     #return render_template("check_connection.html", bilgi=bilgi)
-    return render_template("check_connection.html", users=bilgi, table=db.Model)
+
+    q = engine.execute('SELECT * FROM information_schema.tables;')
+    tablelist = q.fetchall()
+
+
+    return render_template("check_connection.html",user=current_user,tablelist=tablelist)
 
 @auth.route('/logout')
 @login_required
