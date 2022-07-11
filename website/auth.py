@@ -57,7 +57,7 @@ def login():
         else:
             flash('Email does not exist.', category='error')
 
-    return render_template("login.html", boolean=True)
+    return render_template("login.html", user=current_user)
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
@@ -117,3 +117,8 @@ def checkConnection():
     #return render_template("check_connection.html", bilgi=bilgi)
     return render_template("check_connection.html", users=bilgi, table=db.Model)
 
+@auth.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('auth.login'))
