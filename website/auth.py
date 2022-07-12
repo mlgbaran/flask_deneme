@@ -96,13 +96,16 @@ def sign_up():
 def checkConnection():
     q = engine.execute('SHOW TABLES;')
     tablelist = q.fetchall()
+    
+    tabloismi = ''
 
     if request.method == 'POST':
-        print(request.form.get('table'))
-    
+        tabloismi = request.form.get('tablo')
+        q = engine.execute("SELECT * FROM {0}".format(tabloismi))
+        data = q.fetchall()
+        basliklar = data.keys()
 
-
-    return render_template("check_connection.html",user=current_user,tablelist=tablelist,headers=headers)
+    return render_template("check_connection.html",user=current_user,tablelist=tablelist,tablo=tabloismi,basliklar=basliklar)
 
 @auth.route('/logout')
 @login_required

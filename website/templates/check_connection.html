@@ -4,21 +4,28 @@
 {% block content %}
 
 
-<form  method="POST">
-<H2>Görmek istediğiniz tabloyu seçiniz</H2>
+<form method="POST">
+<h3 align="center">Veritabanı tablo kontrol sayfası</h3>
 
-<select name="table" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+
+<div class="form-group">
+    <div class="input-group">
+<label for="tablo">Tablo seçiniz</label>
+<select name="tablo" id="tablo" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
 {% for table in tablelist %}
-<option value=""> {{table}}</option>
+<option value="{{table}}">{{table}}</option>
 {% endfor %}
 </select>
 
+</div>
+<button type="submit" class="btn btn-primary">Göster</button>
 
-<input type="submit" name="goster" value="Tabloyu Göster">
+</div>
+
+<p>{{tablo}}</p>
+
 
 </form>
-
-
 
 
 
