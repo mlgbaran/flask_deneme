@@ -98,11 +98,12 @@ def checkConnection():
     tablelist = q.fetchall()
     
     tabloismi = ''
-
+    basliklar = {}
     if request.method == 'POST':
         tabloismi = request.form.get('tablo')
         q = engine.execute("SELECT * FROM {0}".format(tabloismi))
         data = q.fetchall()
+        print(data)
         basliklar = data.keys()
 
     return render_template("check_connection.html",user=current_user,tablelist=tablelist,tablo=tabloismi,basliklar=basliklar)

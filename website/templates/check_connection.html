@@ -13,7 +13,7 @@
 <label for="tablo">Tablo seçiniz</label>
 <select name="tablo" id="tablo" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
 {% for table in tablelist %}
-<option value="{{table}}">{{table}}</option>
+<option value="{{table[0]}}">{{table[0]}}</option>
 {% endfor %}
 </select>
 
@@ -32,7 +32,7 @@
 
 <p>{{basliklar}}</p>
 
-{% endif }
+{% endif %}
 
 
 {% endblock %}
