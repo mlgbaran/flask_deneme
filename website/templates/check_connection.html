@@ -5,12 +5,12 @@
 
 
 <form method="POST">
-<h3 align="center">Veritabanı tablo kontrol sayfası</h3>
+<h3 align="center">Veritaban覺 tablo kontrol sayfas覺</h3>
 
 
 <div class="form-group">
     <div class="input-group">
-<label for="tablo" class="col-sm-2 col-form-label" >Tablo seçiniz</label>
+<label for="tablo" class="col-sm-2 col-form-label" >Tablo se癟iniz</label>
 <select name="tablo" id="tablo" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
 {% for table in tablelist %}
 <option value="{{table[0]}}">{{table[0]}}</option>
@@ -18,7 +18,7 @@
 </select>
 
 </div>
-<button type="submit" class="btn btn-primary">Göster</button>
+<button type="submit" class="btn btn-primary">G繹ster</button>
 
 </div>
 
@@ -31,13 +31,16 @@
 
 {% if tabloismi != '' %}
 
-<table class="table">
+<table class="table table-striped table-hover">
     <thead>
+        <tr>
         {% for baslik in basliklar %}
-            <tr>
-                <th scope="col">{{baslik}}</th>
-            </tr>
+
+            <th scope="col">{{baslik}}</th>
+            
         {% endfor %}
+
+        </tr>
     </thead>
     <tbody>
     {% for row in data %}
