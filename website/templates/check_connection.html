@@ -10,7 +10,7 @@
 
 <div class="form-group">
     <div class="input-group">
-<label for="tablo">Tablo seçiniz</label>
+<label for="tablo" class="col-sm-2 col-form-label" >Tablo seçiniz</label>
 <select name="tablo" id="tablo" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
 {% for table in tablelist %}
 <option value="{{table[0]}}">{{table[0]}}</option>
@@ -27,10 +27,28 @@
 
 </form>
 
+
+
 {% if tabloismi != '' %}
 
-
-<p>{{basliklar}}</p>
+<table class="table">
+    <thead>
+        {% for baslik in basliklar %}
+            <tr>
+                <th scope="col">{{baslik}}</th>
+            </tr>
+        {% endfor %}
+    </thead>
+    <tbody>
+    {% for row in data %}
+        <tr>
+            {% for cell in row %}
+                <td>{{cell}}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 
 {% endif %}
 

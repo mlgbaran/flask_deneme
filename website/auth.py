@@ -90,7 +90,7 @@ def sign_up():
 
             flash('Account Created!', category='success')
             return redirect(url_for('views.home'))
-    return render_template("sign_up.html")
+    return render_template("sign_up.html",user=current_user)
 
 @auth.route('/check-connection', methods=['GET','POST'])
 def checkConnection():
@@ -102,8 +102,8 @@ def checkConnection():
     if request.method == 'POST':
         tabloismi = request.form.get('tablo')
         q = engine.execute("SELECT * FROM {0}".format(tabloismi))
-        data = q.fetchall()
-        print(data)
+        data = q
+        data = dict(zip(data.keys(), data))
         basliklar = data.keys()
 
     return render_template("check_connection.html",user=current_user,tablelist=tablelist,tablo=tabloismi,basliklar=basliklar)
