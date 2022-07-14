@@ -105,8 +105,7 @@ def checkConnection():
         data = q
         basliklardict = dict(zip(data.keys(), data))
         basliklar = basliklardict.keys()
-        for row in data:
-            print("burada" + row)
+
 
 
     return render_template("check_connection.html",user=current_user,tablelist=tablelist,tablo=tabloismi,basliklar=basliklar,data=data)
