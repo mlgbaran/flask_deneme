@@ -32,11 +32,11 @@
                     <a class="nav-item nav-link" id="login" href="/logout">Logout</a>
                     {% if (user.email == 'mlgbaran@gmail.com') %}
                     <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+                    <a class="nav-item nav-link" id="veritabaniislemleri" href="/veritabani-islemleri">Veritabanı İşlemleri</a>
                     {% endif %}
                     {% endif %}
                     {% if user.is_authenticated == False %}
                     <a class="nav-item nav-link" id="login" href="/login">Login</a>
-                    <a class="nav-item nav-link" id="checkconnection" href="/check-connection">Check Connection</a>
                     {% endif %}
                 </div>
             </div>

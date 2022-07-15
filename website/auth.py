@@ -92,7 +92,7 @@ def sign_up():
             return redirect(url_for('views.home'))
     return render_template("sign_up.html",user=current_user)
 
-@auth.route('/check-connection', methods=['GET','POST'])
+@auth.route('/veritabani-islemleri', methods=['GET','POST'])
 def checkConnection():
     q = engine.execute('SHOW TABLES;')
     tablelist = q.fetchall()
@@ -105,10 +105,12 @@ def checkConnection():
         data = q
         basliklardict = dict(zip(data.keys(), data))
         basliklar = basliklardict.keys()
+        q = engine.execute("SELECT * FROM {0}".format(tabloismi))
+        data = q.fetchall()
 
 
 
-    return render_template("check_connection.html",user=current_user,tablelist=tablelist,tablo=tabloismi,basliklar=basliklar,data=data)
+    return render_template("veritabani_islemleri.html",user=current_user,tablelist=tablelist,tablo=tabloismi,basliklar=basliklar,data=data)
 
 @auth.route('/logout')
 @login_required
