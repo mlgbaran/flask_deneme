@@ -10,7 +10,7 @@ def home():
     return render_template("home.html", user=current_user)
 
 
-@views.route('/deneme')
+@views.route('/upload-csv', methods = ['GET','POST'])
 @login_required
-def deneme():
-    return render_template("deneme.html",user=current_user)
+def upload_csv():
+    return render_template("upload_csv.html",user=current_user)
