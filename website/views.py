@@ -23,7 +23,7 @@ def upload_csv():
 
             dosya = request.files["csv"]
 
-            df = pd.read_csv(dosya)
+            df = read_csv(dosya)
 
             return df[0]
 
