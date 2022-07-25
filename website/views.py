@@ -1,6 +1,6 @@
 from flask_login import login_user, login_required, logout_user, current_user
 from flask import Blueprint, render_template, request, flash, redirect, session, url_for
-
+import pandas as pd
 
 
 
@@ -23,7 +23,8 @@ def upload_csv():
 
             dosya = request.files["csv"]
 
+            df = pd.read_csv(dosya)
 
-            return(request.url)
+            return df[0]
 
     return render_template("upload_csv.html",user=current_user)
