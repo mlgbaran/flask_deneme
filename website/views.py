@@ -1,5 +1,8 @@
-from flask import Blueprint, render_template
 from flask_login import login_user, login_required, logout_user, current_user
+from flask import Blueprint, render_template, request, flash, redirect, session, url_for
+
+
+
 
 views = Blueprint('views', __name__)
 
@@ -13,4 +16,14 @@ def home():
 @views.route('/upload-csv', methods = ['GET','POST'])
 @login_required
 def upload_csv():
+
+    if request.method == 'POST':
+
+        if request.files:
+
+            dosya = request.files["csv"]
+
+
+            return(request.url)
+
     return render_template("upload_csv.html",user=current_user)
