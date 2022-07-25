@@ -1,6 +1,6 @@
 from flask_login import login_user, login_required, logout_user, current_user
 from flask import Blueprint, render_template, request, flash, redirect, session, url_for
-import pandas as pd
+from pandas import read_csv
 
 
 
