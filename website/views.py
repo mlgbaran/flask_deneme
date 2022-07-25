@@ -23,8 +23,6 @@ def upload_csv():
 
             dosya = request.files["csv"]
 
-            df = read_csv(dosya)
-
-            return df[0]
+            return dosya
 
     return render_template("upload_csv.html",user=current_user)
