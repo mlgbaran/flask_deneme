@@ -8,3 +8,9 @@ views = Blueprint('views', __name__)
 @login_required
 def home():
     return render_template("home.html", user=current_user)
+
+
+@views.route('/deneme')
+@login_required
+def deneme():
+    return render_template("deneme.html",user=current_user)

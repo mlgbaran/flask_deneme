@@ -120,7 +120,3 @@ def logout():
     return redirect(url_for('auth.login'))
 
 
-@auth.route('/deneme')
-@login_required
-def deneme():
-    return render_template("deneme.html",user=current_user)
