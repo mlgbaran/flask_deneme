@@ -1,4 +1,5 @@
 
+from crypt import methods
 from flask import Blueprint, render_template, request, flash, redirect, session, url_for
 from sqlalchemy import create_engine, inspect, table
 from .models import User
@@ -117,3 +118,9 @@ def checkConnection():
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
+
+
+@auth.route('/deneme')
+@login_required
+def deneme():
+    return render_template("deneme.html",user=current_user)
