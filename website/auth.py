@@ -14,7 +14,7 @@ from werkzeug.utils import secure_filename
 import os
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-
+from pandas import read_csv
 pymysql.install_as_MySQLdb()
 
 from flask_sqlalchemy import SQLAlchemy
@@ -61,6 +61,7 @@ def login():
     return render_template("login.html", user=current_user)
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
+@login_required
 def sign_up():
     if request.method == 'POST':
         email = request.form.get('email')
@@ -94,6 +95,7 @@ def sign_up():
     return render_template("sign_up.html",user=current_user)
 
 @auth.route('/veritabani-islemleri', methods=['GET','POST'])
+@login_required
 def checkConnection():
     q = engine.execute('SHOW TABLES;')
     tablelist = q.fetchall()
