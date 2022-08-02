@@ -14,7 +14,7 @@ from werkzeug.utils import secure_filename
 import os
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from pandas import read_csv
+import numpy as np
 pymysql.install_as_MySQLdb()
 
 from flask_sqlalchemy import SQLAlchemy
